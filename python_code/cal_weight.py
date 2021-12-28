@@ -1,5 +1,7 @@
 import io
+import json
 import sys
+from calculate.cal_prev_module import cal_prev
 from scrapper.get_residence_address_module import get_residence_address
 from scrapper.find_rooms_module import find_rooms
 
@@ -29,11 +31,7 @@ limit_dist = float(sys.argv[4])
 first_weight = sys.argv[5]
 second_weight = sys.argv[6]
 third_weight = sys.argv[7]
-w1 = sys.argv[8]
-w2 = sys.argv[9]
-w3 = sys.argv[10]
-w4 = sys.argv[11]
-w5 = sys.argv[12]
+w1, w2, w3, w4, w5 = cal_prev(first_weight, second_weight, third_weight)
 
 # univ_name = "숙명여자대학교"
 # univ_lon = 126.9645778
@@ -61,4 +59,5 @@ total = cal_final_weight(T1, T2, T3, T4, T5, w1, w2, w3, w4, w5,
                          third_weight)
 top5 = filter_top5(total)
 top5_with_rooms = find_rooms(top5)
+# top5_with_rooms = json.dumps(top5_with_rooms)
 print(top5_with_rooms)
