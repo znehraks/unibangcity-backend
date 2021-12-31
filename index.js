@@ -4,6 +4,7 @@ const bodyParser = require("body-parser").json();
 const cors = require("cors");
 const spawn = require("child_process").spawn;
 const app = express();
+const connection = require("./connection");
 
 const corsOptions = {
   origin: "*",
@@ -52,22 +53,18 @@ app.post("/recommendation", bodyParser, (req, res) => {
   }
 });
 
-app.post("/recommendation/add", (req, res) => {
-  let sql = `INSERT INTO diy_reco_history(user_no, w_1st, w_2nd, w_3rd, w1, w2, w3, w4, w5, total_w, Q1, Q2, Q3, Q4, Q5, univ_lat, univ_lon, T_set ) values (${req.body.user_no}, ${req.body.w_1st}, ${req.body.w_2nd}, ${req.body.w_3rd}, ${req.body.w1}, ${req.body.w2}, ${req.body.w3}, ${req.body.w4}, ${req.body.w5}, ${req.body.total_w},'${req.body.Q1}', ${req.body.Q2},'${req.body.Q3}','${req.body.Q4}','${req.body.Q5}',${req.body.univ_lat},${req.body.univ_lon}, '${req.body.T_set};
-  ')`;
-
-  connection.query(sql, (err, rows) => {
-    res.send(rows);
-    console.log(err);
-  });
-});
-
-app.post("/recommendation/add_eval", (req, res) => {
-  let sql = `INSERT INTO evaluation(evaluation_category_no, univ_name, T_set, rank01_score, rank02_score, rank03_score, rank04_score, rank05_score) values (${req.body.evaluation_category_no}, '${req.body.univ_name}', '${req.body.T_set}', ${req.body.rank01_score}, ${req.body.rank02_score}, ${req.body.rank03_score}, ${req.body.rank04_score}, ${req.body.rank05_score})`;
-
-  connection.query(sql, (err, rows) => {
-    res.send(rows);
-    console.log(err);
+app.post("/recommendation/create", bodyParser, (req, res) => {
+  console.log(req.body);
+  const sql = `INSERT INTO recommendation_result( univ_name, univ_lat, univ_lon, scrapper_code, rank01_T, rank02_T, rank03_T, rank04_T, rank05_T, avg_T) VALUES('${req.body.univ_name}', ${req.body.univ_lat}, ${req.body.univ_lon}, '${req.body.scrapper_code}', '${req.body.rank01_T}', '${req.body.rank02_T}', '${req.body.rank03_T}', '${req.body.rank04_T}', '${req.body.rank05_T}', '${req.body.avg_T}')`;
+  connection.query(sql, (err, data, fields) => {
+    if (err) {
+      res.send({
+        success: false,
+        err_msg: "오류가 발생했습니다",
+        err_code: -3,
+      });
+    }
+    res.send({ success: true });
   });
 });
 
@@ -89,7 +86,7 @@ app.get("/user", (req, res) => {
 app.post("/user/create", bodyParser, async (req, res) => {
   console.log(req.body);
   const hashedPassword = await bcrypt.hash(req.body.user_password, 10);
-  const sql = `INSERT INTO user(user_email, user_id, user_password) VALUES('${req.body.user_email}','${req.body.user_id}','${hashedPassword}')`;
+  const sql = `INSERT INTO user(user_email,   user_id,   user_password) VALUES('${req.body.user_email}',  '${req.body.user_id}',  '${hashedPassword}')`;
   connection.query(sql, (err, data, fields) => {
     if (err) throw err;
     res.send(data);
