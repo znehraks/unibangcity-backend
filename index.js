@@ -36,12 +36,14 @@ app.post("/recommendation", bodyParser, (req, res) => {
         err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
         err_content: dataToSend,
       });
+      return;
     });
     result.on("close", (code) => {
       if (code !== 0) {
         console.log(`child process close all stdio with code ${code}`);
       }
       res.json({ success: true, data: data });
+      return;
     });
   } catch (e) {
     console.log(e);
@@ -50,6 +52,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
       err_code: -2,
       err_msg: "오류가 발생했습니다.",
     });
+    return;
   }
 });
 
