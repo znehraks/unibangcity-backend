@@ -29,35 +29,35 @@ app.post("/recommendation", bodyParser, (req, res) => {
       // console.log(dataToSend.toString("utf8"));
       console.log("stdout");
       data += dataToSend;
-      res.json({ success: true, data: data });
-      return;
+      // return;
     });
     result.on("close", (code) => {
       console.log("close");
       if (code !== 0) {
         console.log(`child process close all stdio with code ${code}`);
       }
+      res.json({ success: true, data: data });
       return;
     });
     result.stderr.on("data", (dataToSend) => {
       console.log("stderr");
-      res.json({
-        success: false,
-        err_code: -1,
-        err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
-        err_content: dataToSend,
-      });
-      return;
+      // res.json({
+      //   success: false,
+      //   err_code: -1,
+      //   err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
+      //   err_content: dataToSend,
+      // });
+      // return;
     });
   } catch (e) {
     console.log("error");
     console.log(e);
-    res.json({
-      success: false,
-      err_code: -2,
-      err_msg: "오류가 발생했습니다.",
-    });
-    return;
+    // res.json({
+    //   success: false,
+    //   err_code: -2,
+    //   err_msg: "오류가 발생했습니다.",
+    // });
+    // return;
   }
 });
 
