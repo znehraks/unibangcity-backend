@@ -29,13 +29,14 @@ app.post("/recommendation", bodyParser, (req, res) => {
       // console.log(dataToSend.toString("utf8"));
       console.log("stdout");
       data += dataToSend;
+      res.json({ success: true, data: data });
+      return;
     });
     result.on("close", (code) => {
       console.log("close");
       if (code !== 0) {
         console.log(`child process close all stdio with code ${code}`);
       }
-      res.json({ success: true, data: data });
       return;
     });
     result.stderr.on("data", (dataToSend) => {
