@@ -27,9 +27,11 @@ app.post("/recommendation", bodyParser, (req, res) => {
     ]);
     result.stdout.on("data", (dataToSend) => {
       // console.log(dataToSend.toString("utf8"));
+      console.log("stdout");
       data += dataToSend;
     });
     result.on("close", (code) => {
+      console.log("close");
       if (code !== 0) {
         console.log(`child process close all stdio with code ${code}`);
       }
@@ -37,6 +39,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
       return;
     });
     result.stderr.on("data", (dataToSend) => {
+      console.log("stderr");
       res.json({
         success: false,
         err_code: -1,
@@ -46,6 +49,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
       return;
     });
   } catch (e) {
+    console.log("error");
     console.log(e);
     res.json({
       success: false,
