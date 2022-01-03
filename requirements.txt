@@ -1,2 +1,3 @@
 requests==2.26.0
 haversine==2.5.1
+gunicorn==20.1.0

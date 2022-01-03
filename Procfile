@@ -1,0 +1,1 @@
+worker: python cal_weight.py
