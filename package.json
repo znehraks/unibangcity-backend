@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "capstone remade with nodejs+python",
   "main": "index.js",
+  "engines": {
+    "node": "16.13.0",
+    "npm": "8.1.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
@@ -10,6 +14,8 @@
   "author": "znehraks",
   "license": "MIT",
   "dependencies": {
+    "@heroku-cli/plugin-buildpacks": "^7.54.0",
+    "@heroku/buildpack-registry": "^1.0.1",
     "body-parser": "^1.19.1",
     "child-process": "^1.0.2",
     "cors": "^2.8.5",
