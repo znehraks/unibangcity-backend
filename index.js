@@ -14,7 +14,6 @@ app.use(cors(corsOptions));
 
 app.post("/recommendation", bodyParser, (req, res) => {
   let data = "";
-  console.log(req.body);
   try {
     const result = spawn("python", [
       __dirname + "\\python_code\\cal_weight.py",
@@ -27,7 +26,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
       req.body.Q5Answer,
     ]);
     result.stdout.on("data", (dataToSend) => {
-      console.log(dataToSend.toString("utf8"));
+      // console.log(dataToSend.toString("utf8"));
       data += dataToSend;
     });
     result.stderr.on("data", (dataToSend) => {
@@ -35,6 +34,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
         success: false,
         err_code: -1,
         err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
+        err_content: dataToSend,
       });
     });
     result.on("close", (code) => {
