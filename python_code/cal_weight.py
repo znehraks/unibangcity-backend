@@ -1,5 +1,4 @@
 import io
-import json
 import sys
 from calculate.cal_prev_module import cal_prev
 from scrapper.get_residence_address_module import get_residence_address
@@ -24,27 +23,27 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 # 얻어온 매물리스트에서 다방에서 한 번더 request를 보낸뒤 해당 매물 동그라미에서 가장 가까운 매물정보를 여러개 얻어옴
 ###################################################
 
-# univ_name = sys.argv[1]
-# univ_lon = float(sys.argv[2])
-# univ_lat = float(sys.argv[3])
-# limit_dist = float(sys.argv[4])
-# first_weight = sys.argv[5]
-# second_weight = sys.argv[6]
-# third_weight = sys.argv[7]
-# w1, w2, w3, w4, w5 = cal_prev(first_weight, second_weight, third_weight)
+univ_name = sys.argv[1]
+univ_lon = float(sys.argv[2])
+univ_lat = float(sys.argv[3])
+limit_dist = float(sys.argv[4])
+first_weight = sys.argv[5]
+second_weight = sys.argv[6]
+third_weight = sys.argv[7]
+w1, w2, w3, w4, w5 = cal_prev(first_weight, second_weight, third_weight)
 
-univ_name = "숙명여자대학교"
-univ_lon = 126.9645778
-univ_lat = 37.5459469
-limit_dist = 846
-first_weight = "T1"
-second_weight = "T2"
-third_weight = "T3"
-w1 = "30.5"
-w2 = "21"
-w3 = "17"
-w4 = "20"
-w5 = "11.5"
+# univ_name = "숙명여자대학교"
+# univ_lon = 126.9645778
+# univ_lat = 37.5459469
+# limit_dist = 846
+# first_weight = "T1"
+# second_weight = "T2"
+# third_weight = "T3"
+# w1 = "30.5"
+# w2 = "21"
+# w3 = "17"
+# w4 = "20"
+# w5 = "11.5"
 
 refined_residence = get_residence_address(univ_lat, univ_lon)
 T1 = cal_T1(refined_residence, univ_lon, univ_lat, limit_dist)
