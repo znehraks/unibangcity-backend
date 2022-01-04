@@ -36,7 +36,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
         success: false,
         err_code: -1,
         err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
-        err_content: dataToSend,
+        err_content: dataToSend.toString("utf8"),
       });
       return;
     });
