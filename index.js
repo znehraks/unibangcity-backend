@@ -35,12 +35,6 @@ app.post("/recommendation", bodyParser, (req, res) => {
     });
     result.stderr.on("data", (dataToSend) => {
       console.log("stderr");
-      // res.json({
-      //   success: false,
-      //   err_code: -1,
-      //   err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
-      //   err_content: dataToSend.toString("utf8"),
-      // });
       jsonToSend["success"] = false;
       jsonToSend["err_code"] = -1;
       jsonToSend["err_msg"] = "불러오기에 실패했습니다. 다시 시도해주세요!";
@@ -58,11 +52,6 @@ app.post("/recommendation", bodyParser, (req, res) => {
   } catch (e) {
     console.log("error");
     console.log(e);
-    // res.json({
-    //   success: false,
-    //   err_code: -2,
-    //   err_msg: "오류가 발생했습니다.",
-    // });
     return;
   }
 });
@@ -72,15 +61,16 @@ app.post("/recommendation/create", bodyParser, (req, res) => {
   const sql = `INSERT INTO recommendation_result( univ_name, univ_lat, univ_lon, scrapper_code, rank01_T, rank02_T, rank03_T, rank04_T, rank05_T, avg_T) VALUES('${req.body.univ_name}', ${req.body.univ_lat}, ${req.body.univ_lon}, '${req.body.scrapper_code}', '${req.body.rank01_T}', '${req.body.rank02_T}', '${req.body.rank03_T}', '${req.body.rank04_T}', '${req.body.rank05_T}', '${req.body.avg_T}')`;
   connection.query(sql, (err, data, fields) => {
     if (err) {
-      console.log("에러?");
+      console.log("save Error");
       res.send({
         success: false,
         err_msg: "오류가 발생했습니다",
         err_code: -3,
+        err_content: err.toString("utf8"),
       });
       return;
     }
-    console.log("성공?");
+    console.log("save Success");
     res.send({ success: true });
     return;
   });
