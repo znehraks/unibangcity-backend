@@ -62,11 +62,13 @@ app.post("/recommendation/create", bodyParser, (req, res) => {
   connection.query(sql, (err, data, fields) => {
     if (err) {
       console.log("save Error");
+      console.log(data);
       res.send({
         success: false,
         err_msg: "오류가 발생했습니다",
         err_code: -3,
         err_content: err.toString("utf8"),
+        data: data,
       });
       return;
     }
