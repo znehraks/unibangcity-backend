@@ -16,7 +16,7 @@ app.post("/recommendation", bodyParser, (req, res) => {
   let data = "";
   try {
     const result = spawn("python", [
-      "python_code\\cal_weight.py",
+      "./python_code/cal_weight.py",
       req.body.Q1Answer,
       req.body.univ_lon,
       req.body.univ_lat,
