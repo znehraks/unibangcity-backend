@@ -72,13 +72,17 @@ app.post("/recommendation/create", bodyParser, (req, res) => {
   const sql = `INSERT INTO recommendation_result( univ_name, univ_lat, univ_lon, scrapper_code, rank01_T, rank02_T, rank03_T, rank04_T, rank05_T, avg_T) VALUES('${req.body.univ_name}', ${req.body.univ_lat}, ${req.body.univ_lon}, '${req.body.scrapper_code}', '${req.body.rank01_T}', '${req.body.rank02_T}', '${req.body.rank03_T}', '${req.body.rank04_T}', '${req.body.rank05_T}', '${req.body.avg_T}')`;
   connection.query(sql, (err, data, fields) => {
     if (err) {
+      console.log("에러?");
       res.send({
         success: false,
         err_msg: "오류가 발생했습니다",
         err_code: -3,
       });
+      return;
     }
+    console.log("성공?");
     res.send({ success: true });
+    return;
   });
 });
 
