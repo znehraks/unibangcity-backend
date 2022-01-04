@@ -14,6 +14,7 @@ app.use(cors(corsOptions));
 
 app.post("/recommendation", bodyParser, (req, res) => {
   let data = "";
+  let jsonToSend = {};
   try {
     const result = spawn("python", [
       "./python_code/cal_weight.py",
@@ -29,15 +30,21 @@ app.post("/recommendation", bodyParser, (req, res) => {
       console.log(dataToSend.toString("utf8"));
       console.log("stdout");
       data += dataToSend;
+      jsonToSend["success"] = true;
+      jsonToSend["data"] = data;
     });
     result.stderr.on("data", (dataToSend) => {
       console.log("stderr");
-      res.json({
-        success: false,
-        err_code: -1,
-        err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
-        err_content: dataToSend.toString("utf8"),
-      });
+      // res.json({
+      //   success: false,
+      //   err_code: -1,
+      //   err_msg: "불러오기에 실패했습니다. 다시 시도해주세요!",
+      //   err_content: dataToSend.toString("utf8"),
+      // });
+      jsonToSend["success"] = false;
+      jsonToSend["err_code"] = -1;
+      jsonToSend["err_msg"] = "불러오기에 실패했습니다. 다시 시도해주세요!";
+      jsonToSend["err_content"] = dataToSend.toString("utf8");
       return;
     });
     result.on("close", (code) => {
@@ -45,17 +52,17 @@ app.post("/recommendation", bodyParser, (req, res) => {
       if (code !== 0) {
         console.log(`child process close all stdio with code ${code}`);
       }
-      res.json({ success: true, data: data });
+      res.json(jsonToSend);
       return;
     });
   } catch (e) {
     console.log("error");
     console.log(e);
-    res.json({
-      success: false,
-      err_code: -2,
-      err_msg: "오류가 발생했습니다.",
-    });
+    // res.json({
+    //   success: false,
+    //   err_code: -2,
+    //   err_msg: "오류가 발생했습니다.",
+    // });
     return;
   }
 });
