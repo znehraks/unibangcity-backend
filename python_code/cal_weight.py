@@ -44,20 +44,53 @@ w1, w2, w3, w4, w5 = cal_prev(first_weight, second_weight, third_weight)
 # w3 = "17"
 # w4 = "20"
 # w5 = "11.5"
+try:
+    refined_residence = get_residence_address(univ_lat, univ_lon)
+except:
+    print("refined_residence Error")
 
-refined_residence = get_residence_address(univ_lat, univ_lon)
-T1 = cal_T1(refined_residence, univ_lon, univ_lat, limit_dist)
+try:
+    T1 = cal_T1(refined_residence, univ_lon, univ_lat, limit_dist)
+except:
+    print("T1 Error")
 
-T2 = cal_T2(T1)
-T3 = cal_T3(T1)
-T4 = cal_T4(T1)
-T5 = cal_T5(T1)
-total = cal_final_weight(T1, T2, T3, T4, T5, w1, w2, w3, w4, w5,
-                         first_weight,
-                         second_weight,
-                         third_weight)
-top5 = filter_top5(total)
-top5_with_rooms = find_rooms(top5)
+try:
+    T2 = cal_T2(T1)
+except:
+    print("T2 Error")
+
+try:
+    T3 = cal_T3(T1)
+except:
+    print("T3 Error")
+
+try:
+    T4 = cal_T4(T1)
+except:
+    print("T4 Error")
+
+try:
+    T5 = cal_T5(T1)
+except:
+    print("T5 Error")
+
+try:
+    total = cal_final_weight(T1, T2, T3, T4, T5, w1, w2, w3, w4, w5,
+                             first_weight,
+                             second_weight,
+                             third_weight)
+except:
+    print("total Error")
+
+try:
+    top5 = filter_top5(total)
+except:
+    print("filter_top5 Error")
+
+try:
+    top5_with_rooms = find_rooms(top5)
+except:
+    print("find_rooms Error")
 # top5_with_rooms = json.dumps(top5_with_rooms)
 
 print(top5_with_rooms)
